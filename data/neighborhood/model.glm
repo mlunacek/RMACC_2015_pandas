@@ -1,0 +1,3093 @@
+#include "resources/appliance_schedules_iesm.glm";
+#include "resources/battery_schedules.glm";
+#include "resources/water_and_setpoint_schedule_v5.glm";
+module assert;
+module climate;
+module generators;
+module market;
+module tape;
+clock{
+	starttime '2013-07-01 00:00:00';
+	stoptime '2013-07-10 00:00:00';
+}
+
+class auction{
+	double current_price_mean_24h; double current_price_stdev_24h; double my_avg; double my_std;
+}
+
+
+module powerflow{
+	solver_method NR;
+}
+
+module residential{
+	implicit_enduses NONE;
+}
+
+object line_configuration{
+	conductor_A conductor1;
+	conductor_B conductor1;
+	conductor_C conductor1;
+	conductor_N conductor2;
+	name line_configuration1;
+	spacing line_spacing1;
+}
+
+object line_configuration{
+	conductor_A conductor2;
+	conductor_B conductor2;
+	conductor_C conductor2;
+	conductor_N conductor2;
+	name line_configuration2;
+	spacing line_spacing2;
+}
+
+object line_configuration{
+	conductor_B conductor3;
+	conductor_C conductor3;
+	conductor_N conductor3;
+	name line_configuration3;
+	spacing line_spacing3;
+}
+
+object line_configuration{
+	conductor_A conductor3;
+	conductor_C conductor3;
+	conductor_N conductor3;
+	name line_configuration4;
+	spacing line_spacing4;
+}
+
+object line_configuration{
+	conductor_C conductor3;
+	conductor_N conductor3;
+	name line_configuration5;
+	spacing line_spacing5;
+}
+
+object line_configuration{
+	conductor_A conductor4;
+	conductor_B conductor4;
+	conductor_C conductor4;
+	name line_configuration6;
+	spacing line_spacing6;
+}
+
+object line_configuration{
+	conductor_A conductor5;
+	conductor_N conductor5;
+	name line_configuration7;
+	spacing line_spacing6;
+}
+
+object regulator_configuration{
+	Control MANUAL;
+	band_center 2300;
+	band_width 20.0;
+	connect_type WYE_WYE;
+	lower_taps 16;
+	name regulator_configuration1;
+	raise_taps 16;
+	regulation 0.10;
+	tap_pos_A 10;
+	tap_pos_B 8;
+	tap_pos_C 11;
+	time_delay 30.0;
+}
+
+object transformer_configuration{
+	connect_type WYE_WYE;
+	install_type PADMOUNT;
+	name transformer_configuration1;
+	power_rating 500;
+	primary_voltage 4160;
+	reactance 0.02;
+	resistance 0.011;
+	secondary_voltage 480;
+}
+
+object csv_reader{
+	filename "resources/SCADA_weather_NC_gld_shifted.csv";
+	name CsvReader;
+}
+
+object load{
+	constant_power_C 141999.967265+80000.0045026j;
+	name Load611;
+	nominal_voltage 2401.7771;
+	parent Node611;
+	phases "CN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object load{
+	constant_power_A 11333.333+6666.6667j;
+	constant_power_B 44000+25333.3333j;
+	constant_power_C 78000+45333.3333j;
+	name Load6321;
+	nominal_voltage 2401.7771;
+	parent Node6321;
+	phases "ABCN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object load{
+	constant_power_A 160000+110000j;
+	constant_power_B 120000+90000j;
+	constant_power_C 120000+90000j;
+	name Load634;
+	nominal_voltage 480.000;
+	parent Node634;
+	phases "ABCN";
+	voltage_A 480.000+0j;
+	voltage_B -240.000-415.6922j;
+	voltage_C -240.000+415.6922j;
+}
+
+object load{
+	constant_power_B 142000+125000j;
+	name Load645;
+	nominal_voltage 2401.7771;
+	parent Node645;
+	phases "BCN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object load{
+	constant_power_B 215999.849829+132000.009222j;
+	name Load646;
+	nominal_voltage 2401.7771;
+	parent Node646;
+	phases "BCD";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object load{
+	constant_impedance_A 31.0501+20.8618j;
+	name Load652;
+	nominal_voltage 2401.7771;
+	parent Node652;
+	phases "AN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object load{
+	constant_power_A 385000+220000j;
+	constant_power_B 385000+220000j;
+	constant_power_C 385000+220000j;
+	name Load671;
+	nominal_voltage 2401.7771;
+	parent Node671;
+	phases "ABCD";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object load{
+	constant_power_A 5666.6667+3333.3333j;
+	constant_power_B 22000+12666.6667j;
+	constant_power_C 39000+22666.6667j;
+	name Load6711;
+	nominal_voltage 2401.7771;
+	parent Node671;
+	phases "ABC";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object load{
+	constant_impedance_A 0.00-28.8427j;
+	constant_impedance_B 0.00-28.8427j;
+	constant_impedance_C 0.00-28.8427j;
+	constant_power_A 485000+190000j;
+	constant_power_B 68000+60000j;
+	constant_power_C 290000+212000j;
+	name Load675;
+	nominal_voltage 2401.7771;
+	parent Node675;
+	phases "ABC";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object load{
+	constant_current_A 0+0j;
+	constant_current_B 0+0j;
+	constant_current_C -17.2414+51.8677j;
+	name Load692;
+	nominal_voltage 2401.7771;
+	parent Node692;
+	phases "ABCD";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node611;
+	nominal_voltage 2401.7771;
+	phases "CN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node630;
+	nominal_voltage 2401.7771;
+	phases "ABCN";
+	voltage_A 2401.7771+0j;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node632;
+	nominal_voltage 2401.7771;
+	phases "ABCN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node6321;
+	nominal_voltage 2401.7771;
+	phases "ABCN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node633;
+	nominal_voltage 2401.7771;
+	phases "ABCN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node634;
+	nominal_voltage 480.000;
+	phases "ABCN";
+	voltage_A 480.000+0j;
+	voltage_B -240.000-415.6922j;
+	voltage_C -240.000+415.6922j;
+}
+
+object node{
+	name Node645;
+	nominal_voltage 2401.7771;
+	phases "BCN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node646;
+	nominal_voltage 2401.7771;
+	phases "BCD";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	bustype SWING;
+	name Node650;
+	nominal_voltage 2401.7771;
+	phases "ABCN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node652;
+	nominal_voltage 2401.7771;
+	phases "AN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node671;
+	nominal_voltage 2401.7771;
+	phases "ABCD";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node675;
+	nominal_voltage 2401.7771;
+	phases "ABC";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node680;
+	nominal_voltage 2401.7771;
+	phases "ABCN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node684;
+	nominal_voltage 2401.7771;
+	phases "ACN";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object node{
+	name Node692;
+	nominal_voltage 2401.7771;
+	phases "ABCD";
+	voltage_A 2401.7771;
+	voltage_B -1200.8886-2080.000j;
+	voltage_C -1200.8886+2080.000j;
+}
+
+object regulator{
+	configuration regulator_configuration1;
+	from Node650;
+	name Reg1;
+	phases "ABC";
+	sense_node Node671;
+	to Node630;
+}
+
+object transformer{
+	configuration transformer_configuration1;
+	from Node633;
+	name XFMR1;
+	phases "ABCN";
+	to Node634;
+}
+
+object overhead_line_conductor{
+	geometric_mean_radius 0.031300;
+	name conductor1;
+	resistance 0.185900;
+}
+
+object overhead_line_conductor{
+	geometric_mean_radius 0.00814;
+	name conductor2;
+	resistance 0.592000;
+}
+
+object overhead_line_conductor{
+	geometric_mean_radius 0.004460;
+	name conductor3;
+	resistance 1.120000;
+}
+
+object underground_line_conductor{
+	conductor_diameter 0.567000;
+	conductor_gmr 0.017100;
+	conductor_resistance 0.410000;
+	name conductor4;
+	neutral_diameter 0.0640837;
+	neutral_gmr 0.0020800;
+	neutral_resistance 14.87200;
+	neutral_strands 13.000000;
+	outer_diameter 1.290000;
+	shield_gmr 0.000000;
+	shield_resistance 0.000000;
+}
+
+object underground_line_conductor{
+	conductor_diameter 0.368000;
+	conductor_gmr 0.011100;
+	conductor_resistance 0.970000;
+	name conductor5;
+	neutral_diameter 0.0640837;
+	neutral_gmr 0.011100;
+	neutral_resistance 0.970000;
+	neutral_strands 6.000000;
+	outer_diameter 1.060000;
+	shield_gmr 0.000000;
+	shield_resistance 0.000000;
+}
+
+object climate{
+	name house_climate;
+	reader CsvReader;
+	tmyfile "resources/SCADA_weather_NC_gld_shifted.csv";
+}
+
+object line_spacing{
+	distance_AB 2.5;
+	distance_AC 4.5;
+	distance_AN 4.272002;
+	distance_BC 7.0;
+	distance_BN 5.656854;
+	distance_CN 5.0;
+	name line_spacing1;
+}
+
+object line_spacing{
+	distance_AB 4.5;
+	distance_AC 2.5;
+	distance_AN 4.272002;
+	distance_BC 7.0;
+	distance_BN 5.0;
+	distance_CN 5.656854;
+	name line_spacing2;
+}
+
+object line_spacing{
+	distance_AB 0.0;
+	distance_AC 0.0;
+	distance_AN 0.0;
+	distance_BC 7.0;
+	distance_BN 5.0;
+	distance_CN 5.656854;
+	name line_spacing3;
+}
+
+object line_spacing{
+	distance_AB 0.0;
+	distance_AC 7.0;
+	distance_AN 5.656854;
+	distance_BC 0.0;
+	distance_BN 0.0;
+	distance_CN 5.0;
+	name line_spacing4;
+}
+
+object line_spacing{
+	distance_AB 0.0;
+	distance_AC 0.0;
+	distance_AN 0.0;
+	distance_BC 0.0;
+	distance_BN 0.0;
+	distance_CN 5.0;
+	name line_spacing5;
+}
+
+object line_spacing{
+	distance_AB 0.500000;
+	distance_AC 1.000000;
+	distance_AN 0.000000;
+	distance_BC 0.500000;
+	distance_BN 0.000000;
+	distance_CN 0.000000;
+	name line_spacing6;
+}
+
+object line_spacing{
+	distance_AB 0.000000;
+	distance_AC 0.000000;
+	distance_AN 0.083333;
+	distance_BC 0.000000;
+	distance_BN 0.000000;
+	distance_CN 0.000000;
+	name line_spacing_7;
+}
+
+object overhead_line{
+	configuration line_configuration3;
+	from Node632;
+	length 500;
+	name overhead_line1;
+	phases "BCN";
+	to Node645;
+}
+
+object underground_line{
+	configuration line_configuration6;
+	from Node692;
+	length 500;
+	name overhead_line10;
+	phases "ABC";
+	to Node675;
+}
+
+object overhead_line{
+	configuration line_configuration2;
+	from Node632;
+	length 500;
+	name overhead_line11;
+	phases "ABCN";
+	to Node633;
+}
+
+object overhead_line{
+	configuration line_configuration3;
+	from Node645;
+	length 300;
+	name overhead_line2;
+	phases "BCN";
+	to Node646;
+}
+
+object overhead_line{
+	configuration line_configuration1;
+	from Node630;
+	length 2000;
+	name overhead_line3;
+	phases "ABCN";
+	to Node632;
+}
+
+object overhead_line{
+	configuration line_configuration1;
+	from Node632;
+	length 500;
+	name overhead_line4;
+	phases "ABCN";
+	to Node6321;
+}
+
+object overhead_line{
+	configuration line_configuration1;
+	from Node6321;
+	length 1500;
+	name overhead_line5;
+	phases "ABCN";
+	to Node671;
+}
+
+object overhead_line{
+	configuration line_configuration1;
+	from Node671;
+	length 1000;
+	name overhead_line6;
+	phases "ABCN";
+	to Node680;
+}
+
+object overhead_line{
+	configuration line_configuration4;
+	from Node671;
+	length 300;
+	name overhead_line7;
+	phases "ACN";
+	to Node684;
+}
+
+object overhead_line{
+	configuration line_configuration5;
+	from Node684;
+	length 300;
+	name overhead_line8;
+	phases "CN";
+	to Node611;
+}
+
+object underground_line{
+	configuration line_configuration7;
+	from Node684;
+	length 800;
+	name overhead_line9;
+	phases "AN";
+	to Node652;
+}
+
+object switch{
+	from Node671;
+	name switch1;
+	phases "ABCN";
+	status CLOSED;
+	to Node692;
+}
+
+object player{
+	file resources/hvac_schedule_2013.player;
+	loop 3000;
+	name player_0;
+	parent auction_0;
+	property fixed_price;
+}
+
+object auction{
+	my_avg 0.12;
+	my_std 0.05;
+	name auction_0;
+	period 60;
+	special_mode BUYERS_ONLY;
+	unit kW;
+	warmup 1;
+}
+
+object recorder{
+	file outputFiles/auction_0.csv;
+	interval 60;
+	name recorder_0;
+	parent auction_0;
+	property fixed_price,current_market.clearing_price,current_market.clearing_quantity,current_market.clearing_type,current_market.marginal_quantity;
+}
+
+object transformer_configuration{
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	impedance 0.00033+0.0022j;
+	install_type POLETOP;
+	name transformer_configuration_1;
+	powerC_rating 25;
+	primary_voltage 2401.777;
+	secondary_voltage 120;
+	shunt_impedance 10000+10000j;
+}
+
+object transformer{
+	configuration transformer_configuration_1;
+	from Node611;
+	groupid Distribution_Trans;
+	name transformer_1;
+	phases CS;
+	to triplex_node_0;
+}
+
+object triplex_node{
+	name triplex_node_0;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line_conductor{
+	geometric_mean_radius 0.01111;
+	name trip_line_conductor;
+	resistance 0.97;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_0;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_0;
+	from triplex_node_0;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_11;
+	phases CS;
+	to triplex_node_1;
+}
+
+object triplex_node{
+	name triplex_node_1;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_0;
+	from triplex_node_1;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_12;
+	phases CS;
+	to triplex_meter_0;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_0;
+	nominal_voltage 120;
+	phases CS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_0;
+	parent house_0;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 13642.1052632;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 75.7390662202;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 75.7390662202;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 75.7390662202;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_0;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_0;
+	schedule_skew 13642.1052632;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_1;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_1;
+	from triplex_node_0;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_13;
+	phases CS;
+	to triplex_node_2;
+}
+
+object triplex_node{
+	name triplex_node_2;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_1;
+	from triplex_node_2;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_14;
+	phases CS;
+	to triplex_meter_1;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_1;
+	nominal_voltage 120;
+	phases CS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_1;
+	parent house_1;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 14400.0;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 78.3564912297;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 78.3564912297;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 78.3564912297;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_1;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_1;
+	schedule_skew 14400.0;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_2;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_2;
+	from triplex_node_0;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_15;
+	phases CS;
+	to triplex_node_3;
+}
+
+object triplex_node{
+	name triplex_node_3;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_2;
+	from triplex_node_3;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_16;
+	phases CS;
+	to triplex_meter_2;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_2;
+	nominal_voltage 120;
+	phases CS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_2;
+	parent house_2;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 12884.2105263;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 73.0101747344;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 73.0101747344;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 73.0101747344;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_2;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_2;
+	schedule_skew 12884.2105263;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_3;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_3;
+	from triplex_node_0;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_17;
+	phases CS;
+	to triplex_node_4;
+}
+
+object triplex_node{
+	name triplex_node_4;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_3;
+	from triplex_node_4;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_18;
+	phases CS;
+	to triplex_meter_3;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_3;
+	nominal_voltage 120;
+	phases CS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_3;
+	parent house_3;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 7578.94736842;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 77.7637633938;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 77.7637633938;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 77.7637633938;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_3;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_3;
+	schedule_skew 7578.94736842;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_4;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_4;
+	from triplex_node_0;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_19;
+	phases CS;
+	to triplex_node_5;
+}
+
+object triplex_node{
+	name triplex_node_5;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_4;
+	from triplex_node_5;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_20;
+	phases CS;
+	to triplex_meter_4;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_4;
+	nominal_voltage 120;
+	phases CS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_4;
+	parent house_4;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 11368.4210526;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 74.1740156542;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 74.1740156542;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 74.1740156542;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_4;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_4;
+	schedule_skew 11368.4210526;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_5;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_5;
+	from triplex_node_0;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_21;
+	phases CS;
+	to triplex_node_6;
+}
+
+object triplex_node{
+	name triplex_node_6;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_5;
+	from triplex_node_6;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_22;
+	phases CS;
+	to triplex_meter_5;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_5;
+	nominal_voltage 120;
+	phases CS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_5;
+	parent house_5;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 12126.3157895;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 75.9130939865;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 75.9130939865;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 75.9130939865;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_5;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_5;
+	schedule_skew 12126.3157895;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_6;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_6;
+	from triplex_node_0;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_23;
+	phases CS;
+	to triplex_node_7;
+}
+
+object triplex_node{
+	name triplex_node_7;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_6;
+	from triplex_node_7;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_24;
+	phases CS;
+	to triplex_meter_6;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_6;
+	nominal_voltage 120;
+	phases CS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_6;
+	parent house_6;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 9852.63157895;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 76.3607131592;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 76.3607131592;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 76.3607131592;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_6;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_6;
+	schedule_skew 9852.63157895;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_7;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_7;
+	from triplex_node_0;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_25;
+	phases CS;
+	to triplex_node_8;
+}
+
+object triplex_node{
+	name triplex_node_8;
+	nominal_voltage 120;
+	phases CS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_7;
+	from triplex_node_8;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_26;
+	phases CS;
+	to triplex_meter_7;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_7;
+	nominal_voltage 120;
+	phases CS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_7;
+	parent house_7;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 10610.5263158;
+}
+
+object transformer_configuration{
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	impedance 0.00033+0.0022j;
+	install_type POLETOP;
+	name transformer_configuration_2;
+	powerB_rating 25;
+	primary_voltage 2401.777;
+	secondary_voltage 120;
+	shunt_impedance 10000+10000j;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 78.1728664763;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 78.1728664763;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 78.1728664763;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_7;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_7;
+	schedule_skew 10610.5263158;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object transformer{
+	configuration transformer_configuration_2;
+	from Node645;
+	groupid Distribution_Trans;
+	name transformer_2;
+	phases BS;
+	to triplex_node_9;
+}
+
+object triplex_node{
+	name triplex_node_9;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_8;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_8;
+	from triplex_node_9;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_27;
+	phases BS;
+	to triplex_node_10;
+}
+
+object triplex_node{
+	name triplex_node_10;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_8;
+	from triplex_node_10;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_28;
+	phases BS;
+	to triplex_meter_8;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_8;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_8;
+	parent house_8;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 8336.84210526;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 74.6131169099;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 74.6131169099;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 74.6131169099;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_8;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_8;
+	schedule_skew 8336.84210526;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_9;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_9;
+	from triplex_node_9;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_29;
+	phases BS;
+	to triplex_node_11;
+}
+
+object triplex_node{
+	name triplex_node_11;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_9;
+	from triplex_node_11;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_30;
+	phases BS;
+	to triplex_meter_9;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_9;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_9;
+	parent house_9;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 9094.73684211;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 76.2476758901;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 76.2476758901;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 76.2476758901;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_9;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_9;
+	schedule_skew 9094.73684211;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_10;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_10;
+	from triplex_node_9;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_31;
+	phases BS;
+	to triplex_node_12;
+}
+
+object triplex_node{
+	name triplex_node_12;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_10;
+	from triplex_node_12;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_32;
+	phases BS;
+	to triplex_meter_10;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_10;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_10;
+	parent house_10;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 1515.78947368;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 71.0616849531;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 71.0616849531;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 71.0616849531;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_10;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_10;
+	schedule_skew 1515.78947368;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_11;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_11;
+	from triplex_node_9;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_33;
+	phases BS;
+	to triplex_node_13;
+}
+
+object triplex_node{
+	name triplex_node_13;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_11;
+	from triplex_node_13;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_34;
+	phases BS;
+	to triplex_meter_11;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_11;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_11;
+	parent house_11;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 2273.68421053;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 75.219547505;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 75.219547505;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 75.219547505;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_11;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_11;
+	schedule_skew 2273.68421053;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_12;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_12;
+	from triplex_node_9;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_35;
+	phases BS;
+	to triplex_node_14;
+}
+
+object triplex_node{
+	name triplex_node_14;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_12;
+	from triplex_node_14;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_36;
+	phases BS;
+	to triplex_meter_12;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_12;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_12;
+	parent house_12;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 3031.57894737;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 76.6726304638;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 76.6726304638;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 76.6726304638;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_12;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_12;
+	schedule_skew 3031.57894737;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_13;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_13;
+	from triplex_node_9;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_37;
+	phases BS;
+	to triplex_node_15;
+}
+
+object triplex_node{
+	name triplex_node_15;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_13;
+	from triplex_node_15;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_38;
+	phases BS;
+	to triplex_meter_13;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_13;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_13;
+	parent house_13;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 3789.47368421;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 76.7166806915;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 76.7166806915;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 76.7166806915;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_13;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_13;
+	schedule_skew 3789.47368421;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_14;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_14;
+	from triplex_node_9;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_39;
+	phases BS;
+	to triplex_node_16;
+}
+
+object triplex_node{
+	name triplex_node_16;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_14;
+	from triplex_node_16;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_40;
+	phases BS;
+	to triplex_meter_14;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_14;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_14;
+	parent house_14;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 4547.36842105;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 71.7576062779;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 71.7576062779;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 71.7576062779;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_14;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_14;
+	schedule_skew 4547.36842105;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_15;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_15;
+	from triplex_node_9;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_41;
+	phases BS;
+	to triplex_node_17;
+}
+
+object triplex_node{
+	name triplex_node_17;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_15;
+	from triplex_node_17;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_42;
+	phases BS;
+	to triplex_meter_15;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_15;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_15;
+	parent house_15;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 5305.26315789;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 72.1222394721;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 72.1222394721;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 72.1222394721;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_15;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_15;
+	schedule_skew 5305.26315789;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object transformer_configuration{
+	connect_type SINGLE_PHASE_CENTER_TAPPED;
+	impedance 0.00033+0.0022j;
+	install_type POLETOP;
+	name transformer_configuration_3;
+	powerB_rating 25;
+	primary_voltage 2401.777;
+	secondary_voltage 120;
+	shunt_impedance 10000+10000j;
+}
+
+object transformer{
+	configuration transformer_configuration_3;
+	from Node646;
+	groupid Distribution_Trans;
+	name transformer_3;
+	phases BS;
+	to triplex_node_18;
+}
+
+object triplex_node{
+	name triplex_node_18;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_16;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_16;
+	from triplex_node_18;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_43;
+	phases BS;
+	to triplex_node_19;
+}
+
+object triplex_node{
+	name triplex_node_19;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_16;
+	from triplex_node_19;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_44;
+	phases BS;
+	to triplex_meter_16;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_16;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_16;
+	parent house_16;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 6063.15789474;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 73.0430846788;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 73.0430846788;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 73.0430846788;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_16;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_16;
+	schedule_skew 6063.15789474;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_17;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_17;
+	from triplex_node_18;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_45;
+	phases BS;
+	to triplex_node_20;
+}
+
+object triplex_node{
+	name triplex_node_20;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_17;
+	from triplex_node_20;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_46;
+	phases BS;
+	to triplex_meter_17;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_17;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_17;
+	parent house_17;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 6821.05263158;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 78.4412798334;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 78.4412798334;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 78.4412798334;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_17;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_17;
+	schedule_skew 6821.05263158;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_18;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_18;
+	from triplex_node_18;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_47;
+	phases BS;
+	to triplex_node_21;
+}
+
+object triplex_node{
+	name triplex_node_21;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_18;
+	from triplex_node_21;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_48;
+	phases BS;
+	to triplex_meter_18;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_18;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_18;
+	parent house_18;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 0.0;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 72.486202195;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 72.486202195;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 72.486202195;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_18;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_18;
+	schedule_skew 0.0;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object triplex_line_configuration{
+	conductor_1 trip_line_conductor;
+	conductor_2 trip_line_conductor;
+	conductor_N trip_line_conductor;
+	diameter 0.368;
+	insulation_thickness 0.08;
+	name triplex_line_configuration_19;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_19;
+	from triplex_node_18;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_49;
+	phases BS;
+	to triplex_node_22;
+}
+
+object triplex_node{
+	name triplex_node_22;
+	nominal_voltage 120;
+	phases BS;
+}
+
+object triplex_line{
+	configuration triplex_line_configuration_19;
+	from triplex_node_22;
+	groupid Triplex_Line;
+	length 20.10;
+	name line_50;
+	phases BS;
+	to triplex_meter_19;
+}
+
+object triplex_meter{
+	bill_day 1;
+	bill_mode HOURLY;
+	groupid house_meter;
+	monthly_fee 10.0;
+	name triplex_meter_19;
+	nominal_voltage 120;
+	phases BS;
+	power_market auction_0;
+}
+
+object ZIPload{
+	base_power unresponsive_loads*0.32;
+	current_fraction 0.400000;
+	current_pf 0.970;
+	groupid Uncontrollable_load;
+	heatgain_fraction 0.900;
+	impedance_fraction 0.200000;
+	impedance_pf 0.970;
+	name ZIPload_19;
+	parent house_19;
+	power_fraction 0.400000;
+	power_pf 0.970;
+	schedule_skew 757.894736842;
+}
+
+object house{
+	Rdoors 11.28;
+	Rfloor 27.22;
+	Rroof 40.63;
+	Rwall 23.14;
+	air_temperature 76.3961067405;
+	airchange_per_hour 0.25;
+	auxiliary_strategy DEADBAND;
+	auxiliary_system_type NONE;
+	breaker_amps 1000;
+	ceiling_height 9;
+	cooling_COP 3.94;
+	cooling_setpoint 76.3961067405;
+	cooling_system_type ELECTRIC;
+	floor_area 2480;
+	glass_type 2;
+	glazing_layers 3;
+	glazing_treatment 2;
+	groupid res;
+	heating_COP 3.9;
+	heating_setpoint 50;
+	heating_system_type HEAT_PUMP;
+	hvac_breaker_rating 1000;
+	mass_temperature 76.3961067405;
+	motor_efficiency VERY_GOOD;
+	motor_model BASIC;
+	name house_19;
+	number_of_stories 1;
+	over_sizing_factor 0.0;
+	parent triplex_meter_19;
+	schedule_skew 757.894736842;
+	total_thermal_mass_per_floor_area 3.665;
+	window_frame 4;
+	window_wall_ratio 0.15;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_0;
+	parent triplex_meter_19;
+	power_factor 1.0;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_0;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_0;
+}
+
+object recorder{
+	file outputFiles/inverter_0.csv;
+	interval 60;
+	name recorder_1;
+	parent inverter_0;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_1;
+	parent triplex_meter_1;
+	power_factor 1.0;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_1;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_1;
+}
+
+object recorder{
+	file outputFiles/inverter_1.csv;
+	interval 60;
+	name recorder_2;
+	parent inverter_1;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_2;
+	parent triplex_meter_10;
+	power_factor 1.0;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_2;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_2;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_3;
+	parent triplex_meter_5;
+	power_factor 1.0;
+}
+
+object recorder{
+	file outputFiles/inverter_2.csv;
+	interval 60;
+	name recorder_3;
+	parent inverter_2;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_3;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_3;
+}
+
+object recorder{
+	file outputFiles/inverter_3.csv;
+	interval 60;
+	name recorder_4;
+	parent inverter_3;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_4;
+	parent triplex_meter_15;
+	power_factor 1.0;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_4;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_4;
+}
+
+object recorder{
+	file outputFiles/inverter_4.csv;
+	interval 60;
+	name recorder_5;
+	parent inverter_4;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_5;
+	parent triplex_meter_8;
+	power_factor 1.0;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_5;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_5;
+}
+
+object recorder{
+	file outputFiles/inverter_5.csv;
+	interval 60;
+	name recorder_6;
+	parent inverter_5;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_6;
+	parent triplex_meter_13;
+	power_factor 1.0;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_6;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_6;
+}
+
+object recorder{
+	file outputFiles/inverter_6.csv;
+	interval 60;
+	name recorder_7;
+	parent inverter_6;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_7;
+	parent triplex_meter_16;
+	power_factor 1.0;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_7;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_7;
+}
+
+object recorder{
+	file outputFiles/inverter_7.csv;
+	interval 60;
+	name recorder_8;
+	parent inverter_7;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_8;
+	parent triplex_meter_0;
+	power_factor 1.0;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_8;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_8;
+}
+
+object inverter{
+	generator_mode CONSTANT_PF;
+	generator_status ONLINE;
+	inverter_type PWM;
+	name inverter_9;
+	parent triplex_meter_17;
+	power_factor 1.0;
+}
+
+object recorder{
+	file outputFiles/inverter_8.csv;
+	interval 60;
+	name recorder_9;
+	parent inverter_8;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object solar{
+	area 150;
+	efficiency 0.2;
+	generator_mode SUPPLY_DRIVEN;
+	generator_status ONLINE;
+	name solar_9;
+	panel_type SINGLE_CRYSTAL_SILICON;
+	parent inverter_9;
+}
+
+object recorder{
+	file outputFiles/inverter_9.csv;
+	interval 60;
+	name recorder_10;
+	parent inverter_9;
+	property VA_Out.real,VA_Out.imag;
+}
+
+object group_recorder{
+	file outputFiles/house:outdoor_temperature.csv;
+	group class=house;
+	interval 1min;
+	name house:outdoor_temperature;
+	property outdoor_temperature;
+}
+
+object group_recorder{
+	file outputFiles/house:heating_setpoint.csv;
+	group class=house;
+	interval 1min;
+	name house:heating_setpoint;
+	property heating_setpoint;
+}
+
+object group_recorder{
+	file outputFiles/house:cooling_setpoint.csv;
+	group class=house;
+	interval 1min;
+	name house:cooling_setpoint;
+	property cooling_setpoint;
+}
+
+object group_recorder{
+	file outputFiles/house:incident_solar_radiation.csv;
+	group class=house;
+	interval 1min;
+	name house:incident_solar_radiation;
+	property incident_solar_radiation;
+}
+
+object group_recorder{
+	file outputFiles/house:air_temperature.csv;
+	group class=house;
+	interval 1min;
+	name house:air_temperature;
+	property air_temperature;
+}
+
+object group_recorder{
+	file outputFiles/house:mass_temperature.csv;
+	group class=house;
+	interval 1min;
+	name house:mass_temperature;
+	property mass_temperature;
+}
+
+object group_recorder{
+	complex_part REAL;
+	file outputFiles/house:hvac_power.real.csv;
+	group class=house;
+	interval 1min;
+	name nbd406766-36f1-11e5-b1b2-3c15c2ceba18;
+	property hvac_power;
+}
+
+object group_recorder{
+	file outputFiles/triplex_meter:measured_real_power.csv;
+	group class=triplex_meter;
+	interval 1min;
+	name triplex_meter:measured_real_power;
+	property measured_real_power;
+}
+
+object group_recorder{
+	complex_part IMAG;
+	file outputFiles/house:hvac_power.imag.csv;
+	group class=house;
+	interval 1min;
+	name nbd4068cf-36f1-11e5-82ea-3c15c2ceba18;
+	property hvac_power;
+}
+
+object group_recorder{
+	file outputFiles/triplex_meter:measured_reactive_power.csv;
+	group class=triplex_meter;
+	interval 1min;
+	name triplex_meter:measured_reactive_power;
+	property measured_reactive_power;
+}
+
+object group_recorder{
+	file outputFiles/triplex_meter:monthly_energy.csv;
+	group class=triplex_meter;
+	interval 1min;
+	name triplex_meter:monthly_energy;
+	property monthly_energy;
+}
+
+object group_recorder{
+	file outputFiles/triplex_meter:monthly_bill.csv;
+	group class=triplex_meter;
+	interval 1min;
+	name triplex_meter:monthly_bill;
+	property monthly_bill;
+}
+
+object group_recorder{
+	file outputFiles/triplex_meter:price.csv;
+	group class=triplex_meter;
+	interval 1min;
+	name triplex_meter:price;
+	property price;
+}
+
+object group_recorder{
+	file outputFiles/evcharger_det:charge_rate.csv;
+	group class=evcharger_det;
+	interval 1min;
+	name evcharger_det:charge_rate;
+	property charge_rate;
+}
+
+object group_recorder{
+	file outputFiles/evcharger_det:battery_SOC.csv;
+	group class=evcharger_det;
+	interval 1min;
+	name evcharger_det:battery_SOC;
+	property battery_SOC;
+}
+
+object group_recorder{
+	file outputFiles/evcharger_det:arrival_at_work.csv;
+	group class=evcharger_det;
+	interval 1min;
+	name evcharger_det:arrival_at_work;
+	property arrival_at_work;
+}
+
+object group_recorder{
+	file outputFiles/evcharger_det:duration_at_work.csv;
+	group class=evcharger_det;
+	interval 1min;
+	name evcharger_det:duration_at_work;
+	property duration_at_work;
+}
+
+object group_recorder{
+	file outputFiles/evcharger_det:arrival_at_home.csv;
+	group class=evcharger_det;
+	interval 1min;
+	name evcharger_det:arrival_at_home;
+	property arrival_at_home;
+}
+
+object group_recorder{
+	file outputFiles/evcharger_det:duration_at_home.csv;
+	group class=evcharger_det;
+	interval 1min;
+	name evcharger_det:duration_at_home;
+	property duration_at_home;
+}
